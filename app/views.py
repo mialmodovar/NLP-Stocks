@@ -64,7 +64,7 @@ def loadstock(request):
     finish = datetime.datetime.strptime(request.GET.get("finish", None), '%m-%d-%Y').strftime('%Y-%m-%d') 
     stock = yf.Ticker(pk)
     data = stock.history(start = start, end = finish)
-    index = list(data.index.strftime('%Y-%m-%d %H:%i'))
+    index = list(data.index.strftime('%Y-%m-%d %H'))
     print(index)
     close = data.Close.values.tolist()
     print(close)
