@@ -1,0 +1,112 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>Components / Accordion - NiceAdmin Bootstrap Template</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+  <script src="https://cdn.plot.ly/plotly-2.14.0.min.js"></script>
+  <!-- Favicons -->
+  <link href="  {% static 'assets/img/bar-chart.png' %}  " rel="icon">
+  <link href=" {% static 'assets/img/apple-touch-icon.png' %} " rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.gstatic.com" rel="preconnect">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href=" {% static 'assets/vendor/bootstrap/css/bootstrap.min.css' %} " rel="stylesheet">
+  <link href=" {% static 'assets/vendor/bootstrap-icons/bootstrap-icons.css' %} " rel="stylesheet">
+  <link href=" {% static 'assets/vendor/boxicons/css/boxicons.min.css' %} " rel="stylesheet">
+  <link href=" {% static 'assets/vendor/quill/quill.snow.css' %} " rel="stylesheet">
+  <link href=" {% static 'assets/vendor/quill/quill.bubble.css' %} " rel="stylesheet">
+  <link href=" {% static 'assets/vendor/remixicon/remixicon.css' %} " rel="stylesheet">
+  <link href=" {% static 'assets/vendor/simple-datatables/style.css' %} " rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href=" {% static 'assets/css/style.css' %} " rel="stylesheet">
+
+  <!-- =======================================================
+  * Template Name: NiceAdmin - v2.4.1
+  * Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
+</head>
+
+<body class="toggle-sidebar">
+
+  <!-- ======= Header ======= -->
+  <header id="header" class="header fixed-top d-flex align-items-center">
+
+    <div class="d-flex align-items-center justify-content-between">
+      <a href="{% url 'index'  %}" class="logo d-flex align-items-center">
+        <img src=" {% static 'assets/img/bar-chart.png' %} " alt="">
+        <span class="d-none d-lg-block">NLPstocks</span>
+      </a>
+      
+    </div><!-- End Logo -->
+
+    <div class="search-bar">
+      <form class="search-form d-flex align-items-center" method="get" action="{% url 'search' %}">
+        <input type="text" name="query" placeholder="Search for a ticker..." title="Enter search keyword">
+        <button type="submit" title="Search"><i class="bi bi-search"></i></button>
+      </form>
+    </div><!-- End Search Bar -->
+
+  </header><!-- End Header -->
+
+ 
+
+  <main id="main" class="main">
+
+    <div class="pagetitle">
+      <h1>Home</h1>
+    </div><!-- End Page Title -->
+    <section class="section">
+      <div class="row">
+    <div class="col-lg-6">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Stocks to test the app</h5>
+          <ul class="list-group">
+            <li class="list-group-item"><a href = "{% url 'stock' "amzn" %}">Amazon</a></li>
+            <li class="list-group-item"><a href = "{% url 'stock' "tsla" %}">Tesla</a></li>
+            <li class="list-group-item"><a href = "{% url 'stock' "msft" %}">Microsoft</a></li>
+            <li class="list-group-item"><a href = "{% url 'stock' "aapl" %}">Apple</a></li>
+            <li class="list-group-item"><a href = "{% url 'stock' "ibm" %}">IBM</a></li>
+          </ul><!-- End Default List group -->
+        </div>
+      </div>
+      </div>
+        <div class="col-lg-6">
+          <div class="card">
+            <div class="card-body">
+              <h3 class="card-title">This site is under construction</h5>
+                <p>If you are seeing this is because I haven't had the time to build a decent homepage. The search button works though so search for any ticker and you shall get it.</p>
+                Planned features:
+                <ul style="list-style-type:disc">
+                  <li>Wordclouds and other graphical representations of information.</li>
+                  <li>Ability to download, as .csv, stocks data and news/tweets sentiment data for one or more tickers.</li>
+                </ul>
+                <p>Note: Due to restrictions on the twitter API basic tier, the app can only retrieve tweets that have been posted in the last 7 days. This will be fixed soon. </p>
+            </div>
+          </div>
+        </div>
+        <footer id="footer" class="footer">
+          <div class="copyright">
+            <!-- All the links in the footer should remain intact. -->
+            <!-- You can delete the links only if you purchased the pro version. -->
+            <!-- Licensing information: https://bootstrapmade.com/license/ -->
+            <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/ -->
+            Built by <a href="https://github.com/MiguelAlmodovar">Miguel Almodovar</a>
+          </div>
+        </footer><!-- End Footer -->

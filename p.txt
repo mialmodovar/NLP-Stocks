@@ -1,0 +1,87 @@
+$("#twitter").prepend(
+                    `<button type="button" class="btn btn-success mb-2">
+                Positive <span class="badge bg-white text-success">${tsents[0]||""}</span>
+              </button>
+              <button type="button" class="btn btn-secondary mb-2">
+                Neutral <span class="badge bg-white text-secondary">${tsents[1]||""}</span>
+              </button>
+              <button type="button" class="btn btn-danger mb-2">
+                Negative <span class="badge bg-white text-danger">${tsents[2]||""}</span>
+              </button>
+              <button type="button" class="btn btn-primary mb-2">
+                Average <span class="badge bg-white text-primary">{{meanT}}</span>
+              </button>
+              <br>`
+                )
+
+
+def stock(request,pk):
+    stock = yf.Ticker(pk)
+    print(stock.info['shortName'])
+    data = stock.history(period='MAX')
+    index = data.index
+    close = data.Close
+    open = data.Open
+    high = data.High
+    low = data.Low
+    tweets = getTweets(pk)
+    news = getNews(pk)
+    reddit = getReddit(stock)
+    title = stock.info['shortName'].split()[0]
+    meanT = float("{:.3f}".format(getScores(tweets).mean()))
+    meanN = float("{:.3f}".format(getScores(list(zip(*news))[0]).mean()))
+    meanR = float("{:.3f}".format(getScores(list(zip(*reddit))[0]).mean()))
+    sentimentsT = getSentiments(getScores(tweets))
+    sentimentsN = getSentiments(getScores(list(zip(*news))[0]))
+    sentimentsR = getSentiments(getScores(list(zip(*reddit))[0]))
+    context = { 'ticker': pk,'index': index, 'close': close, 'open': open,'high': high, 'low': low, 'meanT': meanT, 'meanN': meanN, 'meanR': meanR, 'sentimentsT': sentimentsT, 'sentimentsN': sentimentsN,'sentimentsR': sentimentsR, 'title': title }
+    return render(request,'app/stocks.html',context)
+
+
+def getTweets(stock):
+  
+  def auth():
+      return secret
+  def create_headers(bearer_token):
+      headers = {"Authorization": "Bearer {}".format(secret)}
+      return headers
+  def create_url(keyword, max_results = 10):
+      
+      search_url = "https://api.twitter.com/2/tweets/search/recent" #Change to the endpoint you want to collect data from
+
+         
+      start_time = datetime.now(timezone.utc)  - timedelta(days=7)
+
+      #change params based on the endpoint you are using
+      query_params = {'query': keyword,
+                      'max_results': max_results,
+                      'start_time': start_time.isoformat(),
+                      'expansions': '',
+                      'tweet.fields': 'text',
+                      'user.fields': '',
+                      'place.fields': '',
+                      'next_token': {}}
+      return (search_url, query_params)
+
+  def connect_to_endpoint(url, headers, params, next_token = None):
+      params['next_token'] = next_token   #params object received from create_url function
+      response = requests.request("GET", url, headers = headers, params = params)
+      print("Endpoint Response Code: " + str(response.status_code))
+      if response.status_code != 200:
+          raise Exception(response.status_code, response.text)
+      return response.json()
+  bearer_token = auth()
+  headers = create_headers(bearer_token)
+  keyword = "{} lang:en".format(stock)
+  max_results = 100
+  url = create_url(keyword, max_results)
+  json_response = connect_to_endpoint(url[0], headers, url[1])
+  tweets = []
+  result_count = json_response['meta']['result_count']
+  for i in range(0,result_count):
+    tweets.append(json_response['data'][i]['text'])
+  return tweets  
+
+
+
+
