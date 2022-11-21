@@ -6,7 +6,6 @@ import yfinance as yf
 import os
 import json
 import pandas as pd
-import environ
 import numpy as np
 import requests
 import datetime

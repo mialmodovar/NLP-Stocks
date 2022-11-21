@@ -20,3 +20,5 @@ prawcore==2.3.0
 python-dotenv==0.21.0
 yfinance==0.1.84
 requests==2.28.1
+beautifulsoup4==4.11.1
+bs4==0.0.1
