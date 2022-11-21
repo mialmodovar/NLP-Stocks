@@ -22,7 +22,7 @@ from dateutil import parser
 
 
 load_dotenv()
-
+nltk.download('vader_lexicon')
 
 def index(request):
     return render(request, 'app/landing.html')
