@@ -13,7 +13,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-  <script src="https://cdn.plot.ly/plotly-2.14.0.min.js"></script>
+  <script src="https://cdn.plot.ly/plotly-2.14.0.min.js"></script>~
+  <script src="https://code.iconify.design/iconify-icon/1.0.1/iconify-icon.min.js"></script>
   <!-- Favicons -->
   <link href="  {% static 'assets/img/bar-chart.png' %}  " rel="icon">
   <link href=" {% static 'assets/img/apple-touch-icon.png' %} " rel="apple-touch-icon">
@@ -72,6 +73,144 @@
       <h1>Home</h1>
     </div><!-- End Page Title -->
     <section class="section">
+      <div class="row">
+        <div class="col-sm-2">
+        <div class="card">
+        <div class="card-body">
+          <a href="{% url 'stock' 'nflx' %}"> 
+          <h5 class="card-title">Netflix <span>| Today</span></h5>
+          </a>
+          <div class="d-flex align-items-center">
+            <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+              <iconify-icon icon="mdi:netflix" width="40" height="40"></iconify-icon>
+            </div>
+            <div class="ps-3">
+              <h6>{{closes.2}} <small>USD</small></h6>
+              {% if var.2  >= 0 %}
+              <span class="text-success small pt-1 fw-bold">+{{var.2}}%</span>       
+            {% else %}
+            <span class="text-danger small pt-1 fw-bold">{{var.2}}%</span>
+            {% endif %}
+
+            </div>
+          </div>
+          </div>
+        </div>
+        </div>
+        <div class="col-sm-2">
+          <div class="card">
+          <div class="card-body">
+            <a href="{% url 'stock' 'meta' %}"> 
+            <h5 class="card-title">Meta <span>| Today</span></h5>
+          </a>
+            <div class="d-flex align-items-center">
+              <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                <iconify-icon icon="bi:meta" width="40" height="40"></iconify-icon>
+              </div>
+              <div class="ps-3">
+                <h6>{{closes.5}} <small>USD</small></h6>
+                {% if var.2  >= 0 %}
+                <span class="text-success small pt-1 fw-bold">+{{var.5}}%</span>       
+              {% else %}
+              <span class="text-danger small pt-1 fw-bold">{{var.5}}%</span>
+              {% endif %}
+  
+              </div>
+            </div>
+            </div>
+          </div>
+          </div>
+          <div class="col-sm-2">
+            <div class="card">
+            <div class="card-body">
+              <a href="{% url 'stock' 'amzn' %}"> 
+              <h5 class="card-title">Amazon <span>| Today</span></h5>
+            </a>
+              <div class="d-flex align-items-center">
+                <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                  <iconify-icon icon="ri:amazon-fill" width="40" height="40"></iconify-icon>
+                </div>
+                <div class="ps-3">
+                  <h6>{{closes.4}} <small>USD</small></h6>
+                  {% if var.4  >= 0 %}
+                  <span class="text-success small pt-1 fw-bold">+{{var.4}}%</span>       
+                {% else %}
+                <span class="text-danger small pt-1 fw-bold">{{var.4}}%</span>
+                {% endif %}
+    
+                </div>
+              </div>
+              </div>
+            </div>
+            </div>
+            <div class="col-sm-2">
+              <div class="card">
+              <div class="card-body">
+                <a href="{% url 'stock' 'tsla' %}"> 
+                <h5 class="card-title">Tesla <span>| Today</span></h5>
+              </a>
+                <div class="d-flex align-items-center">
+                  <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                    <iconify-icon icon="simple-icons:tesla" width="40" height="40"></iconify-icon>
+                  </div>
+                  <div class="ps-3">
+                    <h6>{{closes.3}} <small>USD</small></h6>
+                    {% if var.3  >= 0 %}
+                    <span class="text-success small pt-1 fw-bold">+{{var.3}}%</span>       
+                  {% else %}
+                  <span class="text-danger small pt-1 fw-bold">{{var.3}}%</span>
+                  {% endif %}
+                  </div>
+                </div>
+                </div>
+              </div>
+              </div>
+              <div class="col-sm-2">
+                <div class="card">
+                <div class="card-body">
+                  <a href="{% url 'stock' 'msft' %}"> 
+                  <h5 class="card-title">Microsoft <span>| Today</span></h5>
+                </a>
+                  <div class="d-flex align-items-center">
+                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                      <iconify-icon icon="mdi:microsoft" width="40" height="40"></iconify-icon>
+                    </div>
+                    <div class="ps-3">
+                      <h6>{{closes.0}} <small>USD</small></h6>
+                      {% if var.0  >= 0 %}
+                      <span class="text-success small pt-1 fw-bold">+{{var.0}}%</span>       
+                    {% else %}
+                    <span class="text-danger small pt-1 fw-bold">{{var.0}}%</span>
+                    {% endif %}
+        
+                    </div>
+                  </div>
+                  </div>
+                </div>
+                </div>
+                <div class="col-sm-2">
+                  <div class="card">
+                  <div class="card-body">
+                    <a href="{% url 'stock' 'aapl' %}"> 
+                    <h5 class="card-title">Apple <span>| Today</span></h5>
+                    </a>
+                    <div class="d-flex align-items-center">
+                      <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                        <iconify-icon icon="ic:baseline-apple" width="40" height="40"></iconify-icon>
+                      </div>
+                      <div class="ps-3">
+                        <h6>{{closes.1}} <small>USD</small></h6>
+                        {% if var.1  >= 0 %}
+                        <span class="text-success small pt-1 fw-bold">+{{var.1}}%</span>       
+                      {% else %}
+                      <span class="text-danger small pt-1 fw-bold">{{var.1}}%</span>
+                      {% endif %}
+                      </div>
+                    </div>
+                    </div>
+                  </div>
+                  </div>
+      </div>
       <div class="row">
     <div class="col-lg-6">
       <div class="card">

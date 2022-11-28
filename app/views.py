@@ -25,7 +25,30 @@ load_dotenv()
 nltk.download('vader_lexicon')
 
 def index(request):
-    return render(request, 'app/landing.html')
+    msft = yf.Ticker("MSFT").history(period='2d').Close.tolist()
+    aapl = yf.Ticker("AAPL").history(period='2d').Close.tolist()
+    nflx = yf.Ticker("NFLX").history(period='2d').Close.tolist()
+    tsla = yf.Ticker("TSLA").history(period='2d').Close.tolist()
+    amzn= yf.Ticker("AMZN").history(period='2d').Close.tolist()
+    meta = yf.Ticker("META").history(period='2d').Close.tolist()
+    var=[
+    float(np.format_float_positional(((msft[1]-msft[0])/msft[1])*100, precision=2, unique=False, fractional=False, trim='k')),
+    float(np.format_float_positional(((aapl[1]-aapl[0])/aapl[1])*100, precision=2, unique=False, fractional=False, trim='k')),
+    float(np.format_float_positional(((nflx[1]-nflx[0])/nflx[1])*100, precision=2, unique=False, fractional=False, trim='k')),
+    float(np.format_float_positional(((tsla[1]-tsla[0])/tsla[1])*100, precision=2, unique=False, fractional=False, trim='k')),
+    float(np.format_float_positional(((amzn[1]-amzn[0])/amzn[1])*100, precision=2, unique=False, fractional=False, trim='k')),
+    float(np.format_float_positional(((meta[1]-meta[0])/meta[1])*100, precision=2, unique=False, fractional=False, trim='k'))
+    ]
+    closes= [
+      "{:.2f}".format(msft[1]),
+      "{:.2f}".format(aapl[1]),
+      "{:.2f}".format(nflx[1]),
+      "{:.2f}".format(tsla[1]),
+      "{:.2f}".format(amzn[1]),
+      "{:.2f}".format(meta[1]),
+    ]
+    context = {'var':var,'closes':closes}
+    return render(request, 'app/landing.html',context)
 
 
 def stock(request,pk):
