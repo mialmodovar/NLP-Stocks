@@ -18,11 +18,14 @@ import praw
 from django.http import JsonResponse
 from dotenv import load_dotenv
 from dateutil import parser
+from .models import GNL
 
 
 
 load_dotenv()
 nltk.download('vader_lexicon')
+nltk.download('stopwords')
+stopwords = nltk.corpus.stopwords.words('english')
 
 def index(request):
     msft = yf.Ticker("MSFT").history(period='2d').Close.tolist()
@@ -76,7 +79,8 @@ def loadtweets(request):
     scores = getScores(list(zip(*tweets))[0])
     meanT = float("{:.3f}".format(scores.mean()))
     sentimentsT = getSentiments(scores)
-    return JsonResponse({"sentimentsT":sentimentsT,"meanT":meanT,"tweets":tweets,"scores":list(scores)}, status = 200)
+    wordcounts = count_words(list(zip(*tweets))[0])
+    return JsonResponse({"sentimentsT":sentimentsT,"meanT":meanT,"tweets":tweets,"scores":list(scores),"cloud":wordcounts}, status = 200)
   return JsonResponse({}, status = 400)
 
 def loadstock(request):
@@ -123,7 +127,6 @@ def loadreddit(request):
     return JsonResponse({"sentimentsR":sentimentsR,"meanR":meanR, "reddit" : reddit}, status = 200)
   return JsonResponse({}, status = 400)
 
-    
 
 def getNews(ticker,start,finish):
   start = start + 'T0130'
@@ -138,21 +141,7 @@ def getNews(ticker,start,finish):
   return(news)
 
 
-def getReddit(stock):
-  reddit = praw.Reddit(client_id=os.getenv('CLIENT_ID'), client_secret=os.getenv('CLIENT_SECRET'), user_agent='stocks')
-  posts = []
-  subs = ['StockMarket','Investing','WallStreetBets']
-  names = [stock.info['shortName'].split()[0].replace(',',''),stock.info['symbol']]
-  for sub in subs:
-    for name in names:
-        hot_posts = reddit.subreddit(sub).search(name,limit=100,time_filter ='week')
-        for post in hot_posts:
-            title=post.title
-            link=post.permalink
-            date = post.created_utc
-            print(type(post))
-            posts.append([title,date,link])
-  return posts
+
 
 
 def getTweets(stock,start,finish):
@@ -239,4 +228,28 @@ def getSentiments(vals):
         else :
             neutral += 1
     return(positive,neutral,negative)
+
+
+def count_words(strings):
+  # create a dictionary to store the word counts
+  word_counts = {}
+
+  # iterate over the strings and count the occurrences of each word
+  for string in strings:
+    for word in string.split():
+      word = word.lower()
+      if word in stopwords:
+        # skip stopwords
+        continue
+      if word in word_counts:
+        word_counts[word] += 1
+      else:
+        word_counts[word] = 1
+
+  # create a JSON list from the word counts
+  word_counts_json = [{'text': word, 'count': count} for word, count in word_counts.items()]
+
+  return json.dumps(word_counts_json)
+
+
 

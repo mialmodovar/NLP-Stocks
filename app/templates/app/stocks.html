@@ -7,8 +7,21 @@
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
   <title>{{stock.shortName}} - NLPstocks</title>
+  <style>
+    #word-cloud {
+      width: 200px;
+      height: 200px;
+    }
+  </style>
+
+
   <meta content="" name="description">
   <meta content="" name="keywords">
+
+  
+<script src="https://gist.github.com/emeeks/3361332/raw/61cf57523fe8cf314333e5f60cc266351fec2017/d3.layout.cloud.js"></script>
+<script src="https://d3js.org/d3.v4.min.js"></script>
+
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
@@ -170,6 +183,19 @@
                     </div>
                   </div>
                 </div>
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="headingOne">
+                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                      Word Cloud for tweets
+                    </button>
+                  </h2>
+                  <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionTwitter">
+                    <div class="accordion-body">
+                       <!-- List group with Advanced Contents -->
+                       <canvas id="word-cloud"></canvas>
+                    </div>
+                  </div>
+                </div>
                 </div>
   
             </div>
@@ -308,6 +334,7 @@ Plotly.newPlot('myDiv', data, layout);
          
       })
   </script>
+    
     <script>
         /*
             On submiting the form, send the POST ajax
@@ -387,7 +414,41 @@ Plotly.newPlot('myDiv', data, layout);
                 </a>`
                   )
                 }
-                
+      const data = response['cloud'];
+      // define the size and margins for the word cloud
+      const width = 500;
+      const height = 500;
+      const margin = {top: 20, right: 20, bottom: 20, left: 20};
+
+      // create a scale to map word counts to font sizes
+      const fontSize = d3.scaleLinear()
+        .range([16, 72])
+        .domain([d3.min(data, function(d) { return d.count; }), d3.max(data, function(d) { return d.count; })]);
+        const layout = d3.layout.cloud()
+  .size([width, height])
+  .words(data)
+  .padding(5)
+  .rotate(function() { return ~~(Math.random() * 2) * 90; })
+  .fontSize(function(d) { return fontSize(d.count); })
+  .on('end', draw);
+
+// start the layout
+layout.start();
+
+// draw the words on the canvas
+function draw(words) {
+  // get the context for the canvas
+  const context = document.getElementById('word-cloud').getContext('2d');
+
+  // clear the canvas
+  context.clearRect(0, 0, width, height);
+
+  // draw the words on the canvas
+  words.forEach(function(word) {
+    context.font = `${word.size}px sans-serif`;
+    context.fillText(word.text, word.x, word.y);
+  });
+}
             },
             error: function (response) {
                 console.log(response)
@@ -721,6 +782,8 @@ Plotly.newPlot('myDiv', data, layout);
 </section>
   </main><!-- End #main -->
 
+
+  
   <footer id="footer" class="footer">
     <div class="copyright">
       <!-- All the links in the footer should remain intact. -->
